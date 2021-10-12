@@ -3,35 +3,27 @@ from concurrent import futures
 import grpc
 import person_pb2
 import person_pb2_grpc
+import requests 
 
-
+response = requests.get('http://localhost:30002/api-persons/persons')
+personlist = response.json()
 
 class PersonServicer(person_pb2_grpc.PersonServiceServicer):
     def Get(self, request, context):
+        print (personlist)
+        allpersons =[]
+        for  persondict in personlist:
+           allpersons.append(person_pb2.PersonMessage(
+                id = persondict['id'],
+                first_name = persondict['first_name'],
+                last_name = persondict['last_name'],
+                company_name = persondict['company_name']
+            ))
 
-        # newperson = PersonService.retrieve_all()
-
-        first_person = person_pb2.PersonMessage(
-            id=2222,
-            first_name = 'Ahmed',
-            last_name = 'Ali',
-            company_name= 'Aramco',
-            
-        )
-
-        
-        second_person = person_pb2.PersonMessage(
-            id=1111,
-            first_name = 'Mona',
-            last_name = 'Hosam',
-            company_name= 'Aramco',
-            
-        )
 
         result = person_pb2.PersonMessageList()
-        result.persons.extend([first_person, second_person])
+        result.persons.extend(allpersons)
 
-        # print(newperson)
 
         return result
 
