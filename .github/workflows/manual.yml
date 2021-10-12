@@ -53,3 +53,12 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: barhome/udaconnect-api-persons:latest
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./modules/api-locations
+          file: ./modules/api-locations/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: barhome/udaconnect-api-locations:latest
