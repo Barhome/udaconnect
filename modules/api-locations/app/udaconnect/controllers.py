@@ -5,32 +5,41 @@ from app.udaconnect.schemas import (
     LocationSchema,
 )
 from app.udaconnect.services import  LocationService
-from flask import request
+from flask import request, g, Response
 from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
 from typing import Optional, List
+from kafka import KafkaProducer
+
 
 DATE_FORMAT = "%Y-%m-%d"
 
 api = Namespace("UdaConnect", description="Connections via geolocation.")  # noqa
 
 
-# TODO: This needs better exception handling
 
+@api.before_request
+def before_request():
+    # creating a Kafka producer
+    TOPIC_NAME = 'items'
+    KAFKA_SERVER = 'localhost:9092'
+    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+    #to use the producer in other parts in the app
+    g.kafka_producer = producer
 
 @api.route("/locations")
-class PersonsResource(Resource):
+class LocationsResource(Resource):
     @accepts(schema=LocationSchema)
     @responds(schema=LocationSchema)
     def post(self) -> Location:
         payload = request.get_json()
         new_location: Location = LocationService.create(payload)
-        return new_location
+        return Response(status=202)
 
     @responds(schema=LocationSchema, many=True)
     def get(self) -> List[Location]:
-        persons: List[Location] = LocationService.retrieve_all()
-        return persons
+        locations: List[Location] = LocationService.retrieve_all()
+        return locations
 
 @api.route("/locations/<location_id>")
 @api.param("location_id", "Unique ID for a given Location", _in="query")

@@ -1,4 +1,6 @@
 import logging
+import json
+from .controllers import g
 from datetime import datetime, timedelta
 from typing import Dict, List
 
@@ -31,11 +33,14 @@ class LocationService:
         if validation_results:
             logger.warning(f"Unexpected data format in payload: {validation_results}")
             raise Exception(f"Invalid payload: {validation_results}")
-
         new_location = Location()
         new_location.person_id = location["person_id"]
         new_location.creation_time = location["creation_time"]
         new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
+        # send new location to kafka
+        kafka_data = json.dumps(new_location).encode()
+        kafka_producer = g.kafka_producer
+        kafka_producer.send("items", kafka_data)
         db.session.add(new_location)
         db.session.commit()
 
