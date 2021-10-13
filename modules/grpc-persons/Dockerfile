@@ -1,8 +1,7 @@
-FROM python:3.8-alpine
+FROM python:3.8
 
 WORKDIR .
 
-RUN apk add linux-headers
 
 COPY requirements.txt requirements.txt
 
