@@ -71,3 +71,12 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: barhome/udaconnect-api-connection:latest
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./modules/grpc-persons
+          file: ./modules/grpc-persons/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: barhome/udaconnect-grpc-persons:latest

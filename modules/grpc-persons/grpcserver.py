@@ -10,7 +10,7 @@ personlist = response.json()
 
 class PersonServicer(person_pb2_grpc.PersonServiceServicer):
     def Get(self, request, context):
-        print (personlist)
+        print ('grpcserver recieved a request')
         allpersons =[]
         for  persondict in personlist:
            allpersons.append(person_pb2.PersonMessage(
@@ -24,7 +24,7 @@ class PersonServicer(person_pb2_grpc.PersonServiceServicer):
         result = person_pb2.PersonMessageList()
         result.persons.extend(allpersons)
 
-
+        print('grpcserver succeded in delivering the request')
         return result
 
 

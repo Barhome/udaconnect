@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-grpc-persons
+  name: udaconnect-grpc-persons
+spec:
+  ports:
+  - name: "5005"
+    port: 5005
+    targetPort: 5005
+    nodePort: 30006
+  selector:
+    service: udaconnect-grpc-persons
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-grpc-persons
+  name: udaconnect-grpc-persons
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-grpc-persons
+  template:
+    metadata:
+      labels:
+        service: udaconnect-grpc-persons
+    spec:
+      containers:
+      - image: barhome/udaconnect-grpc-persons:latest
+        name: udaconnect-grpc-persons
+        imagePullPolicy: Always
+      restartPolicy: Always
