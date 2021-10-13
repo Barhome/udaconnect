@@ -1,6 +1,6 @@
 import logging
 import json
-from .controllers import g
+from app.udaconnect.controllers import g
 from datetime import datetime, timedelta
 from typing import Dict, List
 
