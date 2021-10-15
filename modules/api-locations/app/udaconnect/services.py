@@ -1,6 +1,6 @@
 import logging
 import json
-from app.udaconnect.controllers import g
+from flask import g
 from datetime import datetime, timedelta
 from typing import Dict, List
 
