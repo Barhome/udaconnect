@@ -16,9 +16,18 @@ personlist = [
 class PersonServicer(person_pb2_grpc.PersonServiceServicer):
     def Get(self, request, context):
         print ('grpcserver recieved a request')
-        
+        allpersons =[]
+        for  persondict in personlist:
+           allpersons.append(person_pb2.PersonMessage(
+                id = persondict['id'],
+                first_name = persondict['first_name'],
+                last_name = persondict['last_name'],
+                company_name = persondict['company_name']
+            ))
+
+
         result = person_pb2.PersonMessageList()
-        result.persons.extend(personlist)
+        result.persons.extend(allpersons)
 
         print('grpcserver succeded in delivering the request')
         return result
