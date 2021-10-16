@@ -5,11 +5,10 @@ from app.udaconnect.schemas import (
     LocationSchema,
 )
 from app.udaconnect.services import  LocationService
-from flask import request, g, Response
+from flask import request,  Response
 from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
 from typing import Optional, List
-from kafka import KafkaProducer
 
 
 DATE_FORMAT = "%Y-%m-%d"
@@ -17,14 +16,6 @@ DATE_FORMAT = "%Y-%m-%d"
 api = Namespace("UdaConnect", description="Connections via geolocation.")  # noqa
 
 
-
-def before_request():
-    # creating a Kafka producer
-    TOPIC_NAME = 'items'
-    KAFKA_SERVER = 'localhost:9092'
-    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
-    #to use the producer in other parts in the app
-    g.kafka_producer = producer
 
 @api.route("/locations")
 class LocationsResource(Resource):
