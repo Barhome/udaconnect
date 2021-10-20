@@ -9,7 +9,9 @@ from flask import request,  Response , Flask , g
 from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
 from typing import Optional, List
-from kafka import KafkaProducer
+from kafka import KafkaProducer 
+
+
 
 
 DATE_FORMAT = "%Y-%m-%d"
