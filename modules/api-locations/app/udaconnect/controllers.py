@@ -16,16 +16,6 @@ DATE_FORMAT = "%Y-%m-%d"
 
 api = Namespace("UdaConnect", description="Connections via geolocation.")  # noqa
 
-
-@api.before_request
-def Producer():
-    TOPIC_NAME = 'items'
-    KAFKA_SERVER = 'kafka-headless:9092'
-    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
-    #to use the producer in other parts in the app
-    g.kafka_producer = producer
-
-
 @api.route("/locations")
 class LocationsResource(Resource):
     @accepts(schema=LocationSchema)
