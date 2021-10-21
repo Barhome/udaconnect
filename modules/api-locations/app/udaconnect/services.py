@@ -53,7 +53,5 @@ class LocationService:
 
     @staticmethod
     def retrieve_all() -> List[Location]:
-        kafka_producer = g.kafka_producer
-        kafka_producer.send("items", b"all locations retrieved")
         return db.session.query(Location).all()
 
