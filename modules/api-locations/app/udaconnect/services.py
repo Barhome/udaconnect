@@ -47,7 +47,7 @@ class LocationService:
 
             db.session.add(message)
             db.session.commit()
-
+            sys.exit()
         return new_location
     
 
