@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Api for connections
+  description: dealing with  connections
+  version: latest
+paths:
+  /api-connection/persons/{person_id}:
+    get:
+      summary: Retrieve all connections
+      description: Retrieve  connections using  specific time frame and specific distance
+      operationId: find_contacts
+      parameters:
+        - name: person_id
+          in: path
+          description: person id value that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+        - name: start_date
+          in: query
+          description: start date to find a connection 
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          description: end date to find a connection
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: meters
+          in: query
+          description: distance between two persons
+          required: true
+          schema:
+              type: integer
+         
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/connection'
+
+components:
+  schemas:
+    connection: 
+      type: object
+      properties:
+        location:
+          type: object
+          properties:
+            id:
+              type: integer
+            person_id:
+              type: integer
+            coordinates:
+              type: object
+              properties:
+                logatitude:
+                  type: string
+                altitude:
+                  type: string
+            Creation_time:
+              type: string
+              format: time
+        Persons:
+          type: object
+          properties:
+            id:
+              type: integer
+            first_name:
+              type: string
+            last_name:
+              type: string
+            company_name:
+              type: string

@@ -1,0 +1,20 @@
+# Justification for the modules design choice:
+
+    1. Locations Api module and kafka locations: using REST Api with Kafka service queque to 
+    enable the project to maintain large volumes of locations data.
+
+    2. Connection Api module: using REST Api for better maintainability to be handled as a separate
+    module
+
+    3. Persons Api module: using REST Api to handle Persons services as another way to 
+     satisfy different and future use cases
+
+    4. Persons grpc module: using grpc to enble less latency  to enable fast loading when starting up 
+    the app, integration with frontend and db is left for future implementations.
+
+
+# Technologies used: 
+
+    - Frontend development kept as it is by using react 
+    - Backend development usin python and flask to satisfy the project requirements
+    - Using Docker in packageing the apps. 

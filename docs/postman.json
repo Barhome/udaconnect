@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "f8add6dd-f1ab-4854-979a-8ad247633da3",
+		"name": "uda connect collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "persons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30002/api-persons/persons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30002",
+					"path": [
+						"api-persons",
+						"persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30003/api-locations/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30003",
+					"path": [
+						"api-locations",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "persons",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"company_name\": \"Alpha Omega Upholstery\",\n        \"last_name\": \"Ibrahim\",\n        \"first_name\": \"Ali\"\n        \n}"
+				},
+				"url": {
+					"raw": "http://localhost:30002/api-persons/persons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30002",
+					"path": [
+						"api-persons",
+						"persons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "persons_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30002/api-persons/persons/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30002",
+					"path": [
+						"api-persons",
+						"persons",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "connection",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30004/api-connection/persons/5/connection?start_date=2020-01-01&end_date=2020-12-30&distance=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30004",
+					"path": [
+						"api-connection",
+						"persons",
+						"5",
+						"connection"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2020-01-01"
+						},
+						{
+							"key": "end_date",
+							"value": "2020-12-30"
+						},
+						{
+							"key": "distance",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "locations_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:30003/api-locations/locations/29",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "30003",
+					"path": [
+						"api-locations",
+						"locations",
+						"29"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
