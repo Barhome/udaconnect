@@ -9,7 +9,7 @@ from app.udaconnect.schemas import LocationSchema
 from geoalchemy2.functions import ST_AsText, ST_Point
 from sqlalchemy.sql import text
 from kafka import Kafkaconsumer 
-import sys 
+
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
 
@@ -45,7 +45,6 @@ class LocationService:
         for message in consumer:
             db.session.add(message)
             db.session.commit()
-            sys.exit()
         return new_location
     
 
