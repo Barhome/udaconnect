@@ -41,10 +41,8 @@ class LocationService:
         kafka_data = json.dumps(new_location).encode()
         kafka_producer = g.kafka_producer
         kafka_producer.send("items", kafka_data)
-        consumer = Kafkaconsumer(TOPIC_NAME,bootstrap_servers = ['kafka-headless:9092'],
-        value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        consumer = Kafkaconsumer(TOPIC_NAME)
         for message in consumer:
-
             db.session.add(message)
             db.session.commit()
             sys.exit()
