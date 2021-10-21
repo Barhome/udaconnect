@@ -3,17 +3,17 @@ import json
 from flask import g
 from datetime import datetime, timedelta
 from typing import Dict, List
-
 from app import db
 from app.udaconnect.models import Location
 from app.udaconnect.schemas import LocationSchema
 from geoalchemy2.functions import ST_AsText, ST_Point
 from sqlalchemy.sql import text
-
+from kafka import Kafkaconsumer 
+import sys 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
 
-
+TOPIC_NAME = 'items'
 class LocationService:
     @staticmethod
     def retrieve(location_id) -> Location:
@@ -41,8 +41,12 @@ class LocationService:
         kafka_data = json.dumps(new_location).encode()
         kafka_producer = g.kafka_producer
         kafka_producer.send("items", kafka_data)
-        db.session.add(new_location)
-        db.session.commit()
+        consumer = Kafkaconsumer(TOPIC_NAME,bootstrap_servers = ['kafka-headless:9092'],
+        value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        for message in consumer:
+
+            db.session.add(message)
+            db.session.commit()
 
         return new_location
     
