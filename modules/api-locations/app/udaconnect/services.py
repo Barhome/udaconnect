@@ -45,8 +45,8 @@ class LocationService:
         # consumer = KafkaConsumer(TOPIC_NAME)
         # for message in consumer:
         #     new_message = json.loads(message)
-        #     db.session.add(new_message)
-        #     db.session.commit()
+        db.session.add(new_location)
+        db.session.commit()
         return new_location
     
 
