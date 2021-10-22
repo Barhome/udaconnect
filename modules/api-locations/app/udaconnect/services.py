@@ -12,7 +12,7 @@ from kafka import KafkaConsumer
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
-
+TOPIC_NAME = 'items' 
 class LocationService:
     @staticmethod
     def retrieve(location_id) -> Location:
@@ -50,5 +50,7 @@ class LocationService:
 
     @staticmethod
     def retrieve_all() -> List[Location]:
+        kafka_producer = g.kafka_producer
+        kafka_producer.send(TOPIC_NAME, b"all locations retrieved")
         return db.session.query(Location).all()
 
