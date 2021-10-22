@@ -13,7 +13,6 @@ from kafka import KafkaConsumer
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
 
-TOPIC_NAME = 'items'
 class LocationService:
     @staticmethod
     def retrieve(location_id) -> Location:
