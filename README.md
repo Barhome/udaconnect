@@ -106,5 +106,5 @@ This page will load on the frontend app your web browser in which will call all 
 ### Steps to test  Kafka Broker to consume from items topic
 
 - a producer was implemented in the code of the locations api to produce and save  messages in the Kafka broker whenever you make an api endpoint call `/locations`. 
-- first you need to run kafka  by port-forwarding `kubectl port-forward kafka-0 9092:9092` and kafka-zookeeper `kubectl port-forward kafka-zookeeper-0 2181:2181`
+- first you need to run kafka  by port-forwarding `kubectl port-forward kafka-0 9092:9092` and kafka-zookeeper `kubectl port-forward kafka-zookeeper-0 2181:2181` Start port-forwarding kafka-zookeeper first
 - consuming the messages by running the consumer console `kubectl exec -it kafka-0 -- kafka-console-consumer.sh --bootstrap-server kafka-headless:9092 --topic items` 

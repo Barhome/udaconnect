@@ -40,7 +40,7 @@ class LocationService:
         # send new location to kafka
         kafka_data = json.dumps(location)
         kafka_producer = g.kafka_producer
-        kafka_producer.send("items", kafka_data)
+        kafka_producer.send(TOPIC_NAME, kafka_data)
         consumer = KafkaConsumer(TOPIC_NAME)
         for message in consumer:
             new_message = json.loads(message)
