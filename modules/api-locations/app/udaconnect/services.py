@@ -43,7 +43,8 @@ class LocationService:
         kafka_producer.send("items", kafka_data)
         consumer = KafkaConsumer(TOPIC_NAME)
         for message in consumer:
-            db.session.add(message)
+            new_message = json.dumps(message)
+            db.session.add(new_message)
             db.session.commit()
         return new_location
     
