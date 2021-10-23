@@ -39,7 +39,7 @@ class LocationService:
         new_location.creation_time = location["creation_time"]
         new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
         # send new location to kafka
-        kafka_data = json.dumps(location).encode()
+        kafka_data = json.dumps(location)
         kafka_producer = g.kafka_producer
         kafka_producer.send(TOPIC_NAME, kafka_data)
         consumer = KafkaConsumer(TOPIC_NAME)

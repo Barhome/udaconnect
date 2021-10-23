@@ -24,7 +24,7 @@ def create_app(env=None):
     def before_request():
         TOPIC_NAME = 'items'
         KAFKA_SERVER = 'kafka-headless:9092'
-        producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+        producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         #to use the producer in other parts in the app
         g.kafka_producer = producer
 
