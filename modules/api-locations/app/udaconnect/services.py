@@ -41,18 +41,17 @@ class LocationService:
         # send new location to kafka
         kafka_data = json.dumps(new_location)
         kafka_producer = g.kafka_producer
-        kafka_producer.send(TOPIC_NAME, kafka_data)
-        consumer = KafkaConsumer(TOPIC_NAME)
+        kafka_producer.send('items', kafka_data)
+        consumer = KafkaConsumer(bootstrap_servers='kafka-headless:9092',auto_offset_reset='earliest',value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        consumer.subscribe(['items'])
         for message in consumer:
-            new_message = json.loads(message)
-            db.session.add(new_message)
+            print (message)
+            db.session.add(message)
             db.session.commit()
         return new_location
     
 
     @staticmethod
     def retrieve_all() -> List[Location]:
-        kafka_producer = g.kafka_producer
-        kafka_producer.send(TOPIC_NAME, b"all locations retrieved")
         return db.session.query(Location).all()
 
