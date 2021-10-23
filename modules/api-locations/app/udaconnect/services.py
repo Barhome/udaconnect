@@ -8,7 +8,7 @@ from app.udaconnect.models import Location
 from app.udaconnect.schemas import LocationSchema
 from geoalchemy2.functions import ST_AsText, ST_Point
 from sqlalchemy.sql import text
-from kafka import KafkaConsumer 
+from kafka import KafkaConsumer
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
@@ -43,6 +43,7 @@ class LocationService:
         kafka_producer = g.kafka_producer
         kafka_producer.send('items', kafka_data)
         consumer = KafkaConsumer(bootstrap_servers='kafka-headless:9092',auto_offset_reset='earliest',value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        print('your message is down here')
         consumer.subscribe(['items'])
         for message in consumer:
             print (message)
