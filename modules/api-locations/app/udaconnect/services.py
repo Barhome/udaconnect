@@ -47,7 +47,7 @@ class LocationService:
         consumer.subscribe(['items'])
         for message in consumer:
             print (message)
-            db.session.add(message)
+            db.session.add(message.value)
             db.session.commit()
         return new_location
     
