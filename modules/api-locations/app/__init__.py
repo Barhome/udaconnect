@@ -24,7 +24,7 @@ def create_app(env=None):
     def before_request():
         TOPIC_NAME = 'items'
         producer = KafkaProducer(bootstrap_servers = ['kafka-headless:9092'],value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-        consumer = KafkaConsumer ('JSONtopic',bootstrap_servers = ['kafka-headless:9092'],value_deserializer=lambda m: json.loads(m.decode('utf-8')))
+        consumer = KafkaConsumer (TOPIC_NAME,bootstrap_servers = ['kafka-headless:9092'],value_deserializer=lambda m: json.loads(m.decode('utf-8')))
         #to use the producer and the consumer in other parts in the app
         g.kafka_producer = producer
         g.kafka_consumer = consumer
