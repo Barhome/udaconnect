@@ -46,10 +46,11 @@ class LocationService:
         kafka_producer.send('items', location)
         kafka_consumer = g.kafka_consumer
         for message in kafka_consumer:
+            new_message= message.value
             new_location = Location()
-            new_location.person_id = message.value.person_id
-            new_location.creation_time = message.value.creation_time
-            new_location.coordinate = ST_Point(message.value.latitude, message.value.longitude)
+            new_location.person_id = new_message.person_id
+            new_location.creation_time = new_message.creation_time
+            new_location.coordinate = ST_Point(new_message.latitude, new_message.longitude)
             db.session.add(new_location)
             db.session.commit()
         return new_location
