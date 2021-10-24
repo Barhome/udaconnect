@@ -47,9 +47,9 @@ class LocationService:
         kafka_consumer = g.kafka_consumer
         for message in kafka_consumer:
             new_location = Location()
-            new_location.person_id = message.person_id
-            new_location.creation_time = message.creation_time
-            new_location.coordinate = ST_Point(message.latitude, message.longitude)
+            new_location.person_id = message.value.person_id
+            new_location.creation_time = message.value.creation_time
+            new_location.coordinate = ST_Point(message.value.latitude, message.value.longitude)
             db.session.add(new_location)
             db.session.commit()
         return new_location
