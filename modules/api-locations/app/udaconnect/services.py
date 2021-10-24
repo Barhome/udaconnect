@@ -34,16 +34,15 @@ class LocationService:
         if validation_results:
             logger.warning(f"Unexpected data format in payload: {validation_results}")
             raise Exception(f"Invalid payload: {validation_results}")
-        new_location = Location()
-        new_location.person_id = location["person_id"]
-        new_location.creation_time = location["creation_time"]
-        new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
+        # new_location = Location()
+        # new_location.person_id = location["person_id"]
+        # new_location.creation_time = location["creation_time"]
+        # new_location.coordinate = ST_Point(location["latitude"], location["longitude"])
         # send new location to kafka
-        kafka_data = new_location
+        kafka_data = location
         TOPIC_NAME = 'items'
         KAFKA_SERVER = 'kafka-headless:9092'
         producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-        #to use the producer in other parts in the app
         g.kafka_producer = producer
         kafka_producer = g.kafka_producer
         kafka_producer.send('items', kafka_data)
@@ -51,8 +50,11 @@ class LocationService:
         print('your message is down here')
         consumer.subscribe(['items'])
         for message in consumer:
-            print (message)
-            db.session.add(message.value)
+            new_location = Location()
+            new_location.person_id = message.value.person_id
+            new_location.creation_time = message.value.creation_time
+            new_location.coordinate = ST_Point(message.value["latitude"], message["longitude"])
+            db.session.add(new_location)
             db.session.commit()
         return new_location
     
