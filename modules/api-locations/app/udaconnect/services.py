@@ -45,7 +45,7 @@ class LocationService:
         # producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER, value_serializer=lambda v: json.dumps(v).encode('utf-8'))
         # g.kafka_producer = producer
         kafka_producer = g.kafka_producer
-        kafka_producer.send('items', kafka_data)
+        kafka_producer.send(TOPIC_NAME, kafka_data)
         # consumer = KafkaConsumer(bootstrap_servers='kafka-headless:9092',auto_offset_reset='earliest',value_deserializer=lambda m: json.loads(m.decode('utf-8')))
         # consumer.subscribe(['items'])
         # for message in consumer:
@@ -60,5 +60,7 @@ class LocationService:
 
     @staticmethod
     def retrieve_all() -> List[Location]:
+        kafka_producer = g.kafka_producer
+        kafka_producer.send("items", "all locations retrieved")
         return db.session.query(Location).all()
 
