@@ -23,8 +23,8 @@ class LocationsResource(Resource):
     @responds(schema=LocationSchema)
     def post(self) -> Location:
         payload = request.get_json()
-        new_location: Location = LocationService.create(payload)
-        return new_location
+        Location = LocationService.create(payload)
+        return Response(status='successfull')
 
     @responds(schema=LocationSchema, many=True)
     def get(self) -> List[Location]:
