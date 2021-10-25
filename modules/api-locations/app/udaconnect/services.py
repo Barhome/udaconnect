@@ -8,7 +8,7 @@ from app.udaconnect.models import Location
 from app.udaconnect.schemas import LocationSchema
 from geoalchemy2.functions import ST_AsText, ST_Point
 from sqlalchemy.sql import text
-from kafka import KafkaConsumer , KafkaProducer
+from kafka import KafkaConsumer , KafkaProducer, TopicPartition
 import sys
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-api")
@@ -45,6 +45,15 @@ class LocationService:
         kafka_producer = g.kafka_producer
         kafka_producer.send('items', location)
         kafka_consumer = g.kafka_consumer
+        #getting lastOffset to exit loop 
+        tp = TopicPartition('items',0)
+        #register to the topic
+        kafka_consumer.assign([tp])
+
+        # obtain the last offset value
+        kafka_consumer.seek_to_end(tp)
+        lastOffset = kafka_consumer.position(tp)
+        kafka_consumer.seek_to_beginning(tp)    
         for message in kafka_consumer:
             new_message= message.value
             new_location = Location()
@@ -53,6 +62,8 @@ class LocationService:
             new_location.coordinate = ST_Point(new_message['latitude'], new_message['longitude'])
             db.session.add(new_location)
             db.session.commit()
+            if message.offset == lastOffset - 1:
+                break
         return new_location
     
 
